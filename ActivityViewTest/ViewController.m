@@ -8,20 +8,41 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
-
+@interface ViewController () <UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextView *textField;
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
+@property (strong, nonatomic) UIActivityViewController *activityViewController;
 @end
+
+
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark -
+#pragma mark - Private methods
+- (IBAction)shareAction:(id)sender
+{
+    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.textField.text] applicationActivities:nil];
+    [self presentViewController:self.activityViewController animated:YES completion:nil];
+//    [self presentViewController:self.activityViewController animated:YES completion:@[UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypePostToWeibo]];
+}
+
+- (void)setTextField:(UITextView *)textField
+{
+    _textField = textField;
+    _textField.layer.cornerRadius = 3;
+}
+
+- (void)setActionButton:(UIButton *)actionButton
+{
+    _actionButton = actionButton;
+    _actionButton.layer.cornerRadius = 3;
 }
 
 @end
